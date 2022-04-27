@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
  *
  */
 public class App {
-	private static final int BATCH_NUMBER = 8000;
+	private static final int BATCH_NUMBER = 9000;
 
 	public static void main(String[] args) {
 		System.out.println("Apache log parser!");
@@ -25,15 +25,15 @@ public class App {
 				Matcher matcher;
 
 				long startTime = System.currentTimeMillis(); // Timing code.
-				// Open file:
+				// Open Apache log file:
 				FileInputStream fileInputStream = new FileInputStream(
 						"C:\\Users\\Stefanos\\Downloads\\NASA_access_log_Aug95\\big"); // NASA_access_log_Aug95
-				Scanner sc = new Scanner(fileInputStream);
-				// Read line by line:
+				Scanner scanner = new Scanner(fileInputStream);
+				// Read Apache log file line by line:
 				int id = 0;
 				int lineCount = 0;
-				while (sc.hasNextLine()) {
-					String line = sc.nextLine();
+				while (scanner.hasNextLine()) {
+					String line = scanner.nextLine();
 
 					matcher = apacheLogParser.parseLine(lineCount, line);
 
@@ -53,7 +53,7 @@ public class App {
 				// Insert all remaining lines in the database:
 				databaseHelper.commitLines();
 				// Close the file:
-				sc.close();
+				scanner.close();
 
 				long endTime = System.currentTimeMillis(); // Timing code.
 

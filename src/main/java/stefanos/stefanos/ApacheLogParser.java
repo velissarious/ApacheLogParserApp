@@ -14,10 +14,10 @@ public class ApacheLogParser {
 		this.pattern = Pattern.compile(regex);
 	}
 
-	public Matcher parseLine(int id, String ApacheLogSample) {
+	public Matcher parseLine(int lineNumber, String ApacheLogSample) {
 		this.matcher = pattern.matcher(ApacheLogSample);
 		if (!matcher.find()) {
-			System.out.println("Malformed log entry in line " + (id + 1) + " !");
+			System.out.println("Malformed log entry in line " + (lineNumber + 1) + " !");
 			found = false;
 		} else {
 			found = true;
