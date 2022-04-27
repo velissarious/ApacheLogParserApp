@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class ApacheLogParser {
 
-	private static final String regex = "^([\\d.]+) (\\S+) (\\S+) \\[([\\w:/]+\\s[+-]\\d{4})\\] \"(.+?)\" (\\d{3}) (\\d+) \"([^\"]+)\" \"(.+?)\"";
+	private static final String regex = "^([\\S.]+) (\\S+) (\\S+) \\[([\\w:/]+\\s[+-]\\d{4})\\] \"(.+?)\" (\\d{3}) (\\d+)";
 	Pattern pattern;
 	Matcher matcher; 
 

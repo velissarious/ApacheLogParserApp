@@ -15,7 +15,7 @@ public class App {
 
 			// Parse Apache log line by line:
 			String ApacheLogSample = "123.45.67.89 - - [27/Oct/2000:09:27:09 -0400] \"GET /java/javaResources.html "
-					+ "HTTP/1.0\" 200 10450 \"-\" \"Mozilla/4.6 [en] (X11; U; OpenBSD 2.8 i386; Nav)\"";
+					+ "HTTP/1.0\" 200 10450";
 
 			System.out.println("Apache log input line: " + ApacheLogSample);
 

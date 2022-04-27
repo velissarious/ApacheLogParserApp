@@ -56,6 +56,6 @@ public class DatabaseHelper {
 		connection.close();
 		// Cleanup - delete temporary database file:
 		File myObj = new File(DATABASE_NAME);
-		////myObj.delete();
+		myObj.delete();
 	}
 }
