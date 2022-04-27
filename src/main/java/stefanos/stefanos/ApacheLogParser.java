@@ -24,7 +24,7 @@ public class ApacheLogParser {
 		}
 		return matcher;
 	}
-	
+
 	public boolean found() {
 		return this.found;
 	}

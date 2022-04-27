@@ -3,6 +3,7 @@ package stefanos.stefanos;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.regex.Matcher;
@@ -11,7 +12,7 @@ public class DatabaseHelper {
 
 	final static String DATABASE_NAME = "test.db";
 	private Connection connection;
-	private Statement statement;
+	private PreparedStatement preparedStatemenet;
 
 	public DatabaseHelper() throws SQLException, ClassNotFoundException {
 		// Create SQLite database:
@@ -20,7 +21,7 @@ public class DatabaseHelper {
 		System.out.println("Opened database successfully");
 
 		// Create main table in database:
-		statement = connection.createStatement();
+		Statement statement = connection.createStatement();
 		// @formatter:off
 		String query = "CREATE TABLE logs " 
 				+ "(id INT PRIMARY KEY NOT NULL,"
@@ -34,22 +35,31 @@ public class DatabaseHelper {
 		// @formatter:on
 		statement.executeUpdate(query);
 		statement.close();
+
+		// Prepare insert statement:
+		query = "INSERT INTO logs (id, ip, available, userid, time, request, status, size) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+		preparedStatemenet = connection.prepareStatement(query);
+		connection.setAutoCommit(false);
 	}
 
 	public void insertLine(int id, Matcher matcher) throws SQLException {
-		// @formatter:off
-		String sql = "INSERT INTO logs (id, ip, available, userid, time, request, status, size) " + 
-		"VALUES ("+id+", "
-				+"\""+ matcher.group(1) + "\" , " 
-				+"\""+ matcher.group(2) + "\", " 
-				+"\""+ matcher.group(3) + "\", " 
-				+"\""+ matcher.group(4) + "\", " 
-				+"\""+ matcher.group(5) + "\", "
-				+"\""+ matcher.group(6) + "\", "
-				+"\""+ matcher.group(7) + "\" );";
-		// @formatter:on
-		statement.executeUpdate(sql);
+		preparedStatemenet.setInt(1, id);
+		preparedStatemenet.setString(2, matcher.group(1));
+		preparedStatemenet.setString(3, matcher.group(2));
+		preparedStatemenet.setString(4, matcher.group(3));
+		preparedStatemenet.setString(5, matcher.group(4));
+		preparedStatemenet.setString(6, matcher.group(5));
+		preparedStatemenet.setString(7, matcher.group(6));
+		preparedStatemenet.setString(8, matcher.group(7));
+		preparedStatemenet.addBatch();
 	};
+
+	public void commitLines() throws SQLException {
+		preparedStatemenet.executeBatch();
+		connection.commit();
+		connection.setAutoCommit(false);
+	}
 
 	public void close() throws SQLException {
 		// Close connection to database:
