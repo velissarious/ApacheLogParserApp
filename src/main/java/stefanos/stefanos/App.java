@@ -18,25 +18,28 @@ public class App {
 
 			// Parse Apache log line by line:
 			try {
-				
+
 				ApacheLogParser apacheLogParser = new ApacheLogParser();
 				Matcher matcher;
-				
+
 				// Open file:
 				FileInputStream fileInputStream = new FileInputStream(
-						"C:\\Users\\Stefanos\\Downloads\\NASA_access_log_Aug95\\small"); //NASA_access_log_Aug95
+						"C:\\Users\\Stefanos\\Downloads\\NASA_access_log_Aug95\\big"); // NASA_access_log_Aug95
 				Scanner sc = new Scanner(fileInputStream);
 				// Read line by line:
 				int id = 0;
+				int lineCount = 0;
 				while (sc.hasNextLine()) {
 					String line = sc.nextLine();
-					
-					matcher = apacheLogParser.parseLine(line);
-					apacheLogParser.printLastMatch();
 
-					// Insert log line information in the database.
-					databaseHelper.insertLine(id, matcher);
-					id++;
+					matcher = apacheLogParser.parseLine(id, line);
+
+					if (apacheLogParser.found()) {
+						// Insert log line information in the database.
+						databaseHelper.insertLine(id, matcher); // TODO: Make this into a single batch.
+						id++;
+					}
+					lineCount++;
 				}
 				// Close the file:
 				sc.close();
