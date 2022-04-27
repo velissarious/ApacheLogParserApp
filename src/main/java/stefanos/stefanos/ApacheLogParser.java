@@ -31,13 +31,16 @@ public class ApacheLogParser {
 
 	public void printLastMatch() {
 		if (found) {
-			System.out.println("\nIP Address: " + matcher.group(1));
-			System.out.println("Available: " + matcher.group(2));
-			System.out.println("UserID: " + matcher.group(3));
-			System.out.println("Time: " + matcher.group(4));
-			System.out.println("Request: " + matcher.group(5));
-			System.out.println("Status: " + matcher.group(6));
-			System.out.println("Size: " + matcher.group(7));
+			// @formatter:off
+			System.out.println(
+					"\nIP Address: " + matcher.group(1) 
+					+ "\nAvailable: " + matcher.group(2) 
+					+ "\nUserID: " + matcher.group(3) 
+					+ "\nTime: " + matcher.group(4) 
+					+ "\nRequest: " + matcher.group(5) 
+					+ "\nStatus: " + matcher.group(6) 
+					+ "\nSize: " + matcher.group(7));
+			// @formatter:on
 		}
 	}
 
