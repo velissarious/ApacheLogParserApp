@@ -1,5 +1,8 @@
 package stefanos.stefanos;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 
 /**
@@ -14,18 +17,34 @@ public class App {
 			DatabaseHelper databaseHelper = new DatabaseHelper();
 
 			// Parse Apache log line by line:
-			String ApacheLogSample = "123.45.67.89 - - [27/Oct/2000:09:27:09 -0400] \"GET /java/javaResources.html "
-					+ "HTTP/1.0\" 200 10450";
+			try {
+				
+				ApacheLogParser apacheLogParser = new ApacheLogParser();
+				Matcher matcher;
+				
+				// Open file:
+				FileInputStream fileInputStream = new FileInputStream(
+						"C:\\Users\\Stefanos\\Downloads\\NASA_access_log_Aug95\\small"); //NASA_access_log_Aug95
+				Scanner sc = new Scanner(fileInputStream);
+				// Read line by line:
+				int id = 0;
+				while (sc.hasNextLine()) {
+					String line = sc.nextLine();
+					
+					matcher = apacheLogParser.parseLine(line);
+					apacheLogParser.printLastMatch();
 
-			System.out.println("Apache log input line: " + ApacheLogSample);
+					// Insert log line information in the database.
+					databaseHelper.insertLine(id, matcher);
+					id++;
+				}
+				// Close the file:
+				sc.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
-			ApacheLogParser apacheLogParser = new ApacheLogParser();
-			Matcher matcher = apacheLogParser.parseLine(ApacheLogSample);
-			apacheLogParser.printLastMatch();
-
-			// Insert log line information in the database.
-			databaseHelper.insertLine(matcher);
-
+			// Close the database and delete the temporary database file:
 			databaseHelper.close();
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());

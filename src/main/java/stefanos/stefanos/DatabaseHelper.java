@@ -36,10 +36,10 @@ public class DatabaseHelper {
 		statement.close();
 	}
 
-	public void insertLine(Matcher matcher) throws SQLException {
+	public void insertLine(int id, Matcher matcher) throws SQLException {
 		// @formatter:off
 		String sql = "INSERT INTO logs (id, ip, available, userid, time, request, status, size) " + 
-		"VALUES (1, "
+		"VALUES ("+id+", "
 				+"\""+ matcher.group(1) + "\" , " 
 				+"\""+ matcher.group(2) + "\", " 
 				+"\""+ matcher.group(3) + "\", " 
