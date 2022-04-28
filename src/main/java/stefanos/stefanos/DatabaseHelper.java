@@ -20,7 +20,6 @@ public class DatabaseHelper {
 		// Create SQLite database:
 		Class.forName("org.sqlite.JDBC");
 		connection = DriverManager.getConnection("jdbc:sqlite:" + DATABASE_NAME);
-		System.out.println("Opened database successfully");
 
 		// Create main table in database:
 		Statement statement = connection.createStatement();
