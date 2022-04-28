@@ -175,7 +175,7 @@ public class DatabaseHelper {
 		while (resultSet.next()) {
 			// @formatter:off
 			reportPart += 
-					resultSet.getString("Failure Percentage") 
+					resultSet.getString("request").split(" ")[1]
 					+ "\n";
 			// @formatter:on
 		}
@@ -189,7 +189,8 @@ public class DatabaseHelper {
 	 */
 	public String getTop10HostsAndRequestsNumber() throws SQLException {
 		String reportPart = "5. The top 10 hosts making the most requests, displaying the IP address and number of"
-				+ " requests made.\n" + "----------------------------------------------------------------------------------------------------\n";
+				+ " requests made.\n"
+				+ "----------------------------------------------------------------------------------------------------\n";
 		Statement statement = connection.createStatement();
 		// @formatter:off
 		String query = "SELECT ip, COUNT(*) AS count " 
@@ -242,7 +243,7 @@ public class DatabaseHelper {
 
 		// Find top 5 pages for each host:
 		for (String host : top10Hosts) {
-			reportPart += "Host: "+host+"\n";
+			reportPart += "Host: " + host + "\n";
 			statement = connection.createStatement();
 			// @formatter:off
 			query = "SELECT request, COUNT(*) AS count " 
@@ -259,7 +260,12 @@ public class DatabaseHelper {
 			// @formatter:on
 			resultSet = statement.executeQuery(query);
 			while (resultSet.next()) {
-				reportPart += resultSet.getString("request").split(" ")[1]+"\n";
+				// @formatter:off
+				reportPart += resultSet.getString("request").split(" ")[1]
+						+ " "
+						+ resultSet.getString("count")
+						+ "\n";
+				// @formatter:on
 			}
 			reportPart += "\n";
 			statement.close();
