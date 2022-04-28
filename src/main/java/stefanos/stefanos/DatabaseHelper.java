@@ -63,7 +63,7 @@ public class DatabaseHelper {
 
 	/* 1. Top 10 requested pages and the number of requests made for each */
 	public String getTop10RequestedPagesAndRequestNumber() throws SQLException {
-		String reportPart = " 1. Top 10 requested pages and the number of requests made for each\n"
+		String reportPart = "1. Top 10 requested pages and the number of requests made for each\n"
 				+ "-------------------------------------------------------------------\n";
 		Statement statement = connection.createStatement();
 		// @formatter:off
