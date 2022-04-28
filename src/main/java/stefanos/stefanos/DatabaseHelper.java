@@ -81,7 +81,7 @@ public class DatabaseHelper {
 		while (resultSet.next()) {
 			// @formatter:off
 			reportPart += 
-					resultSet.getString("request") 
+					resultSet.getString("request").split(" ")[1] 
 					+ " " 
 					+ resultSet.getString("count") 
 					+ "\n";
@@ -259,7 +259,7 @@ public class DatabaseHelper {
 			// @formatter:on
 			resultSet = statement.executeQuery(query);
 			while (resultSet.next()) {
-				reportPart += resultSet.getString("request")+"\n";
+				reportPart += resultSet.getString("request").split(" ")[1]+"\n";
 			}
 			reportPart += "\n";
 			statement.close();
