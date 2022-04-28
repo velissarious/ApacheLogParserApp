@@ -1,8 +1,8 @@
 package stefanos.stefanos;
 
-import java.io.FileInputStream;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 
 /**
@@ -15,7 +15,7 @@ public class App {
 	public static void main(String[] args) {
 		long startTime;
 		long endTime;
-		
+
 		System.out.println("Apache log parser!");
 		try {
 			// Connect to the database and initialize table:
@@ -29,15 +29,13 @@ public class App {
 
 				startTime = System.currentTimeMillis(); // Timing code.
 				// Open Apache log file:
-				FileInputStream fileInputStream = new FileInputStream(
-						"C:\\Users\\Stefanos\\Downloads\\NASA_access_log_Aug95\\big"); // NASA_access_log_Aug95
-				Scanner scanner = new Scanner(fileInputStream);
+				FileReader fileReader = new FileReader("C:\\Users\\Stefanos\\Downloads\\NASA_access_log_Aug95\\big");
+				BufferedReader bufferedReader = new BufferedReader(fileReader);
 				// Read Apache log file line by line:
 				int current_batch_number = 0;
 				int lineCount = 0;
-				while (scanner.hasNextLine()) {
-					String line = scanner.nextLine();
-
+				String line;
+				while ((line = bufferedReader.readLine()) != null) {
 					matcher = apacheLogParser.parseLine(lineCount, line);
 
 					if (apacheLogParser.found()) {
@@ -48,7 +46,7 @@ public class App {
 
 					// Insert a number of lines at a time:
 					if (current_batch_number == BATCH_NUMBER) {
-						//databaseHelper.commitLines();
+						databaseHelper.commitLines();
 						current_batch_number = 0;
 					}
 
@@ -57,11 +55,11 @@ public class App {
 				// Insert all remaining lines in the database:
 				databaseHelper.commitLines();
 				// Close the file:
-				scanner.close();
+				bufferedReader.close();
 
 				endTime = System.currentTimeMillis(); // Timing code.
 				System.out.println("Insert to database duration: " + (endTime - startTime) + " ms");
-				
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
