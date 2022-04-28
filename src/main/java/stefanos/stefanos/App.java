@@ -1,7 +1,9 @@
 package stefanos.stefanos;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.regex.Matcher;
 
@@ -11,6 +13,7 @@ import java.util.regex.Matcher;
  */
 public class App {
 	private static final int BATCH_NUMBER = 9000;
+	private static final String DEFAULT_REPORT_NAME = "report.txt";
 
 	public static void main(String[] args) {
 		long startTime;
@@ -60,6 +63,23 @@ public class App {
 				endTime = System.currentTimeMillis(); // Timing code.
 				System.out.println("Insert to database duration: " + (endTime - startTime) + " ms");
 
+				// Generate the report:
+				String reportName = DEFAULT_REPORT_NAME;
+				String report = "";
+				report += databaseHelper.getTop10RequestedPagesAndRequestNumber();
+				report += databaseHelper.getSuccessfulRequestsPercentage();
+				report += databaseHelper.getUnsuccessfulRequestsPercentage();
+				report += databaseHelper.getTop10UnsuccessfulPageRequests();
+				report += databaseHelper.getTop10HostsAndRequestsNumber();
+				report += databaseHelper.getTop5PagesOfTop10Hosts();				
+				System.out.println(report);
+				
+				// Write the report:
+				FileWriter reportFile = new FileWriter(reportName);
+				BufferedWriter bufferedWriter = new BufferedWriter(reportFile);
+				bufferedWriter.write(report);
+				bufferedWriter.close();
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

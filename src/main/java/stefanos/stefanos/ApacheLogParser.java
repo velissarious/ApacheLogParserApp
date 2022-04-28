@@ -17,6 +17,8 @@ public class ApacheLogParser {
 	public Matcher parseLine(int lineNumber, String ApacheLogSample) {
 		this.matcher = pattern.matcher(ApacheLogSample);
 		if (!matcher.find()) {
+			/* 8. The log file contains malformed entries; for each malformed line, display an error
+			message and the line number. */
 			System.out.println("Malformed log entry in line " + (lineNumber + 1) + " !");
 			found = false;
 		} else {

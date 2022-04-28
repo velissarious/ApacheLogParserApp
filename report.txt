@@ -1,0 +1,21 @@
+ 1. Top 10 requested pages and the number of requests made for each
+-------------------------------------------------------------------
+GET /ksc.html HTTP/1.0 43379
+GET /shuttle/missions/sts-69/mission-sts-69.html HTTP/1.0 24544
+GET /shuttle/missions/missions.html HTTP/1.0 22339
+GET /software/winvn/winvn.html HTTP/1.0 10059
+GET /history/history.html HTTP/1.0 10039
+GET /history/apollo/apollo.html HTTP/1.0 8957
+GET /shuttle/countdown/liftoff.html HTTP/1.0 7836
+GET /history/apollo/apollo-13/apollo-13.html HTTP/1.0 7157
+GET /shuttle/technology/sts-newsref/stsref-toc.html HTTP/1.0 6451
+GET /shuttle/missions/sts-69/images/images.html HTTP/1.0 5258
+
+2. Percentage of successful requests (anything in the 200s and 300s range
+-------------------------------------------------------------------------
+99.9998071632427
+
+Report 3 
+Report 4 
+Report 5 
+Report 6 
