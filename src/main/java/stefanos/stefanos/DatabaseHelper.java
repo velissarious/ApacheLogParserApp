@@ -24,34 +24,24 @@ public class DatabaseHelper {
 		Statement statement = connection.createStatement();
 		// @formatter:off
 		String query = "CREATE TABLE logs " 
-				+ "(id INT PRIMARY KEY NOT NULL,"
-				+ " ip INT,"
-				+ " available TEXT, "					
-				+ " userid INT, "
-				+ " time TEXT, " 
+				+ "( ip INT,"
 				+ " request TEXT,"
-				+ " status TEXT,"
-				+ " size INT )"; // Size in bytes.
+				+ " status TEXT)";
 		// @formatter:on
 		statement.executeUpdate(query);
 		statement.close();
 
 		// Prepare insert statement:
-		query = "INSERT INTO logs (id, ip, available, userid, time, request, status, size) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+		query = "INSERT INTO logs (ip, request, status) "
+				+ "VALUES (?, ?, ?);";
 		preparedStatemenet = connection.prepareStatement(query);
 		connection.setAutoCommit(false);
 	}
 
-	public void insertLine(int id, Matcher matcher) throws SQLException {
-		preparedStatemenet.setInt(1, id);
-		preparedStatemenet.setString(2, matcher.group(1));
-		preparedStatemenet.setString(3, matcher.group(2));
-		preparedStatemenet.setString(4, matcher.group(3));
-		preparedStatemenet.setString(5, matcher.group(4));
-		preparedStatemenet.setString(6, matcher.group(5));
-		preparedStatemenet.setString(7, matcher.group(6));
-		preparedStatemenet.setString(8, matcher.group(7));
+	public void insertLine(Matcher matcher) throws SQLException {
+		preparedStatemenet.setString(1, matcher.group(1));
+		preparedStatemenet.setString(2, matcher.group(5));
+		preparedStatemenet.setString(3, matcher.group(6));
 		preparedStatemenet.addBatch();
 	};
 
@@ -62,6 +52,8 @@ public class DatabaseHelper {
 	}
 
 	public void close() throws SQLException {
+		// Close the statement:
+		preparedStatemenet.close();
 		// Close connection to database:
 		connection.close();
 		// Cleanup - delete temporary database file:
