@@ -19,7 +19,7 @@ public class ApacheLogParser {
 		if (!matcher.find()) {
 			/* 8. The log file contains malformed entries; for each malformed line, display an error
 			message and the line number. */
-			System.out.println("Malformed log entry in line " + (lineNumber + 1) + " !");
+			System.err.println("Malformed log entry in line " + (lineNumber + 1) + " !");
 			found = false;
 		} else {
 			found = true;

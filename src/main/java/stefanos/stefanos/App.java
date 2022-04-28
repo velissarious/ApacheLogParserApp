@@ -7,6 +7,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.regex.Matcher;
 
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
+
 /**
  * Apache log parser!
  *
@@ -14,12 +17,43 @@ import java.util.regex.Matcher;
 public class App {
 	private static final int BATCH_NUMBER = 9000;
 	private static final String DEFAULT_REPORT_NAME = "report.txt";
+	private static final String DEFAULT_INPUT_FILE_NAME = "access_log_Aug95";
 
-	public static void main(String[] args) {
-		long startTime;
-		long endTime;
+	@Parameter(names = { "-v", "-verbose" }, description = "Level of verbosity")
+	private static Boolean verbose = false;
 
-		System.out.println("Apache log parser!");
+	@Parameter(names = { "-o", "-option" }, description = "Run only a single option")
+	private static Integer option = 0;
+	
+	@Parameter(names = { "-r", "-report" }, description = "Specify report file name")
+	private static String reportName = DEFAULT_REPORT_NAME;
+	
+	@Parameter(names = { "-i", "-input" }, description = "Specify input file name")
+	private static String inputFileName = DEFAULT_INPUT_FILE_NAME;
+
+	// Parse the options (flags) and other command line arguments:
+	public static void main(String... argv) {
+		App main = new App();
+		JCommander.newBuilder().addObject(main).build().parse(argv);
+		App.run();
+	}
+
+	public static void run() {
+		if (verbose)
+			System.out.println("Apache log parser!");
+
+		if (option == 6 || option > 7 || option < 0) {
+			System.err.println("Incorrect value for the -o flag, correct values are\n"
+					+ "0. All of the items bellow\n"
+					+ "1. Top 10 requested pages and the number of requests made for each\n"
+					+ "2. Percentage of successful requests (anything in the 200s and 300s range)\n"
+					+ "3. Percentage of unsuccessful requests (anything that is not in the 200s or 300s range)\n"
+					+ "4. Top 10 unsuccessful page requests \n"
+					+ "5. The top 10 hosts making the most requests, displaying the IP address and number of requests made.\n"
+					+ "and 7. For each of the top 10 hosts, show the top 5 pages requested and the number of requests for each page\n");
+			System.exit(1);
+		}
+
 		try {
 			// Connect to the database and initialize table:
 			DatabaseHelper databaseHelper = new DatabaseHelper();
@@ -30,9 +64,9 @@ public class App {
 				ApacheLogParser apacheLogParser = new ApacheLogParser();
 				Matcher matcher;
 
-				startTime = System.currentTimeMillis(); // Timing code.
+				long startTime = System.currentTimeMillis(); // Timing code.
 				// Open Apache log file:
-				FileReader fileReader = new FileReader("C:\\Users\\Stefanos\\Downloads\\NASA_access_log_Aug95\\big");
+				FileReader fileReader = new FileReader(inputFileName);
 				BufferedReader bufferedReader = new BufferedReader(fileReader);
 				// Read Apache log file line by line:
 				int current_batch_number = 0;
@@ -60,28 +94,35 @@ public class App {
 				// Close the file:
 				bufferedReader.close();
 
-				endTime = System.currentTimeMillis(); // Timing code.
-				System.out.println("Insert to database duration: " + (endTime - startTime) + " ms");
+				long endTime = System.currentTimeMillis(); // Timing code.
+				if (verbose)
+					System.out.println("Insert to database duration: " + (endTime - startTime) + " ms");
 
-				// Generate the report:
-				String reportName = DEFAULT_REPORT_NAME;
+				// Generate the report:				
 				String report = "";
-				report += databaseHelper.getTop10RequestedPagesAndRequestNumber();
-				report += databaseHelper.getSuccessfulRequestsPercentage();
-				report += databaseHelper.getUnsuccessfulRequestsPercentage();
-				report += databaseHelper.getTop10UnsuccessfulPageRequests();
-				report += databaseHelper.getTop10HostsAndRequestsNumber();
-				report += databaseHelper.getTop5PagesOfTop10Hosts();				
-				System.out.println(report);
-				
+				if (option == 0 || option == 1)
+					report += databaseHelper.getTop10RequestedPagesAndRequestNumber();
+				if (option == 0 || option == 2)
+					report += databaseHelper.getSuccessfulRequestsPercentage();
+				if (option == 0 || option == 3)
+					report += databaseHelper.getUnsuccessfulRequestsPercentage();
+				if (option == 0 || option == 4)
+					report += databaseHelper.getTop10UnsuccessfulPageRequests();
+				if (option == 0 || option == 5)
+					report += databaseHelper.getTop10HostsAndRequestsNumber();
+				if (option == 0 || option == 7)
+					report += databaseHelper.getTop5PagesOfTop10Hosts();
+				if (verbose)
+					System.out.println(report);
+
 				// Write the report:
 				FileWriter reportFile = new FileWriter(reportName);
 				BufferedWriter bufferedWriter = new BufferedWriter(reportFile);
 				bufferedWriter.write(report);
 				bufferedWriter.close();
-				
+
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.err.println("Please specify a correct input file using the -i option.");
 			}
 
 			// Close the database and delete the temporary database file:
