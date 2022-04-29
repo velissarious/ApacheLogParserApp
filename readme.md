@@ -73,20 +73,32 @@ Using option parsing you can to generate a report that contains one of the follo
 
 0 - Default option, all of the bellow:
 
-1 - Top 10 requested pages and the number of requests made for each 
+1 - Top 10 requested pages and the number of requests made for each.
 
-2 - Percentage of successful requests (anything in the 200s and 300s range) 
+2 - Percentage of successful requests (anything in the 200s and 300s range).
 
-3 - Percentage of unsuccessful requests (anything that is not in the 200s or 300s range) 
+3 - Percentage of unsuccessful requests (anything that is not in the 200s or 300s range).
 
-4 - Top 10 unsuccessful page requests 
+4 - Top 10 unsuccessful page requests.
 
 5 - The top 10 hosts making the most requests, displaying the IP address and number of requests made. 
 
-7 - For each of the top 10 hosts, show the top 5 pages requested and the number of requests for each page 
+7 - For each of the top 10 hosts, show the top 5 pages requested and the number of requests for each page.
 
 You can use this feature by specifying the the `-o` or `-option` option:
 
 `java -jar stefanos-0.9.0-SNAPSHOT-jar-with-dependencies.jar -o 1`
 
 This example will display item 1 from the list above.
+
+
+
+## Technical Details
+
+The project has the following dependencies that are also defined in Maven's `pom.xml` file.
+
+* sqlite-jdbc - to use [SQLite](https://sqlite.org/index.html) a file based database.
+
+* jcommander - a command line parsing library.
+
+* junit - [JUnit](https://junit.org/junit4/) for unit testing.

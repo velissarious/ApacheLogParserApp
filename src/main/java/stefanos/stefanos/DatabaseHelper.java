@@ -12,7 +12,7 @@ import java.util.regex.Matcher;
 
 public class DatabaseHelper {
 
-	final static String DATABASE_NAME = "test.db";
+	final static String DATABASE_NAME = "temp.db";
 	private Connection connection;
 	private PreparedStatement preparedStatemenet;
 
