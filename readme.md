@@ -103,7 +103,7 @@ The project has the following dependencies that are also defined in Maven's `pom
 
 * [JCommander](https://jcommander.org/) - a command line parsing library.
 
-* [JUnit](https://junit.org/junit4/) - for unit testing.
+* [JUnit](https://junit.org/junit4/) 4 - for unit testing.
 
 Portions of the program are written as SQL queries.
 
