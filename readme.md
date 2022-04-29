@@ -95,10 +95,21 @@ This example will display item 1 from the list above.
 
 ## Technical Details
 
+### Dependencies
+
 The project has the following dependencies that are also defined in Maven's `pom.xml` file.
 
-* sqlite-jdbc - to use [SQLite](https://sqlite.org/index.html) a file based database.
+*  [SQLite](https://sqlite.org/index.html) jdbc - a file based database.
 
-* jcommander - a command line parsing library.
+* [JCommander](https://jcommander.org/) - a command line parsing library.
 
-* junit - [JUnit](https://junit.org/junit4/) for unit testing.
+* [JUnit](https://junit.org/junit4/) - for unit testing.
+
+Portions of the program are written as SQL queries.
+
+### Assumptions
+
+All possible input are log files are Apache HTTP Server log file from 1995.
+
+
+

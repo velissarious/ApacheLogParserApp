@@ -9,9 +9,10 @@ import java.util.regex.Matcher;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import com.beust.jcommander.ParameterException;
 
 /**
- * Apache log parser!
+ * Apache Log Parser App!
  *
  */
 public class App {
@@ -24,17 +25,28 @@ public class App {
 
 	@Parameter(names = { "-o", "-option" }, description = "Run only a single option")
 	private static Integer option = 0;
-	
+
 	@Parameter(names = { "-r", "-report" }, description = "Specify report file name")
 	private static String reportName = DEFAULT_REPORT_NAME;
-	
+
 	@Parameter(names = { "-i", "-input" }, description = "Specify input file name")
 	private static String inputFileName = DEFAULT_INPUT_FILE_NAME;
 
 	// Parse the options (flags) and other command line arguments:
 	public static void main(String... argv) {
 		App main = new App();
-		JCommander.newBuilder().addObject(main).build().parse(argv);
+		try {
+			JCommander.newBuilder().addObject(main).build().parse(argv);
+		} catch (ParameterException exc) {
+			// @formatter:off
+			System.out.println("Invalid option provided, valid options:\n" 
+					+ "-v or -verbose,\n" 
+					+ "-o [number 1,2,3,4,5 or 7] or -option [number 1,2,3,4,5 or 7],\n"
+					+ "-r [filename] or -report  [filename],\n" 
+					+ "-i [filename] or -input [filename]\n");
+			// @formatter:on
+			System.exit(1);
+		}
 		App.run();
 	}
 
@@ -43,8 +55,7 @@ public class App {
 			System.out.println("Apache log parser!");
 
 		if (option == 6 || option > 7 || option < 0) {
-			System.err.println("Incorrect value for the -o flag, correct values are\n"
-					+ "0. All of the items bellow\n"
+			System.err.println("Incorrect value for the -o flag, correct values are\n" + "0. All of the items bellow\n"
 					+ "1. Top 10 requested pages and the number of requests made for each\n"
 					+ "2. Percentage of successful requests (anything in the 200s and 300s range)\n"
 					+ "3. Percentage of unsuccessful requests (anything that is not in the 200s or 300s range)\n"
@@ -98,7 +109,7 @@ public class App {
 				if (verbose)
 					System.out.println("Insert to database duration: " + (endTime - startTime) + " ms");
 
-				// Generate the report:				
+				// Generate the report:
 				String report = "";
 				if (option == 0 || option == 1)
 					report += databaseHelper.getTop10RequestedPagesAndRequestNumber();
