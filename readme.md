@@ -113,5 +113,5 @@ All possible input are log files are Apache HTTP Server log file from 1995.
 
 The input log will always fit in memory. 
 
-
+Pages are only html pages.
 
