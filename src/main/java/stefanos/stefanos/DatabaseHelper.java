@@ -1,6 +1,5 @@
 package stefanos.stefanos;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,18 +11,13 @@ import java.util.regex.Matcher;
 
 public class DatabaseHelper {
 
-	final static String DATABASE_NAME = "temp.db";
 	private Connection connection;
 	private PreparedStatement preparedStatemenet;
 
 	public DatabaseHelper() throws SQLException, ClassNotFoundException {
-		// Delete previous database in case it still exists (for example because JVM
-		// crashed in a previous run).
-		deleteDatabaseFile();
-		
 		// Create SQLite database:
 		Class.forName("org.sqlite.JDBC");
-		connection = DriverManager.getConnection("jdbc:sqlite:" + DATABASE_NAME);
+		connection = DriverManager.getConnection("jdbc:sqlite:file:memorydb.db?mode=memory&cache=shared");
 
 		// Create main table in database:
 		Statement statement = connection.createStatement();
@@ -60,15 +54,6 @@ public class DatabaseHelper {
 		preparedStatemenet.close();
 		// Close connection to database:
 		connection.close();
-		// Cleanup - delete temporary database file:
-		deleteDatabaseFile();
-	}
-
-	private void deleteDatabaseFile() {
-		File file = new File(DATABASE_NAME);
-		if (file.exists() && !file.isDirectory()) {
-			file.delete();
-		}
 	}
 
 	/* 1. Top 10 requested pages and the number of requests made for each */

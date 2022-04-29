@@ -111,5 +111,7 @@ Portions of the program are written as SQL queries.
 
 All possible input are log files are Apache HTTP Server log file from 1995.
 
+The input log will always fit in memory. 
+
 
 
