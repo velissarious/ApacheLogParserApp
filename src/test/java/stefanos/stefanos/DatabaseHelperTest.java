@@ -11,7 +11,7 @@ public class DatabaseHelperTest {
 
 	@Test
 	public void insertShouldWork() throws SQLException, ClassNotFoundException {
-		String logLine = "uplherc.upl.com - - [01/Aug/1995:00:00:08 -0400] \"GET /images/MOSAIC-logosmall.gif HTTP/1.0\" 304 0";
+		final String logLine = "uplherc.upl.com - - [01/Aug/1995:00:00:08 -0400] \"GET /images/MOSAIC-logosmall.gif HTTP/1.0\" 304 0";
 
 		ApacheLogParser apacheLogParser = new ApacheLogParser();
 		Matcher matcher = apacheLogParser.parseLine(0, logLine);
