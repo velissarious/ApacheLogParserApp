@@ -80,7 +80,7 @@ public class App {
 				FileReader fileReader = new FileReader(inputFileName);
 				BufferedReader bufferedReader = new BufferedReader(fileReader);
 				// Read Apache log file line by line:
-				int current_batch_number = 0;
+				int currentBatchNumber = 0;
 				int lineCount = 0;
 				String line;
 				while ((line = bufferedReader.readLine()) != null) {
@@ -89,13 +89,13 @@ public class App {
 					if (apacheLogParser.found()) {
 						// Prepare log lines to insert into the database:
 						databaseHelper.insertLine(matcher);
-						current_batch_number++;
+						currentBatchNumber++;
 					}
 
 					// Insert a number of lines at a time:
-					if (current_batch_number == BATCH_NUMBER) {
+					if (currentBatchNumber == BATCH_NUMBER) {
 						databaseHelper.commitLines();
-						current_batch_number = 0;
+						currentBatchNumber = 0;
 					}
 
 					lineCount++;

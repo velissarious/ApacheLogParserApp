@@ -15,7 +15,7 @@ public class ApacheLogParserTest {
 		apacheLogParser.parseLine(0, logLine);
 		boolean found = apacheLogParser.found();
 
-		assertEquals(found, true);
+		assertEquals(true, found);
 	}
 
 	@Test
@@ -26,7 +26,7 @@ public class ApacheLogParserTest {
 		apacheLogParser.parseLine(0, logLine);
 		boolean found = apacheLogParser.found();
 
-		assertEquals(found, false);
+		assertEquals(false, found);
 	}
 
 	@Test

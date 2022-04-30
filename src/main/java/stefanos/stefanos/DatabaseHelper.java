@@ -41,7 +41,7 @@ public class DatabaseHelper {
 		preparedStatemenet.setString(2, matcher.group(5));
 		preparedStatemenet.setString(3, matcher.group(6));
 		preparedStatemenet.addBatch();
-	};
+	}
 
 	public void commitLines() throws SQLException {
 		preparedStatemenet.executeBatch();
