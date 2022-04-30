@@ -240,15 +240,14 @@ public class DatabaseHelper {
 			reportPart += "Host: " + host + "\n";
 			statement = connection.createStatement();
 			// @formatter:off
-			query = "SELECT request, COUNT(*) AS count " 
+			query = "SELECT request, COUNT(request) AS Count " 
 					+ " FROM "
 					+ " logs "
 					+ " WHERE "
 					+ " ip = \""+host+"\" "
 					+ " AND "
 					+ " request LIKE '%.htm%' "
-					+ " GROUP BY"
-					+ " request "
+					+ " GROUP BY request"
 					+ " ORDER BY count DESC "
 					+ " LIMIT 5; ";
 			// @formatter:on
