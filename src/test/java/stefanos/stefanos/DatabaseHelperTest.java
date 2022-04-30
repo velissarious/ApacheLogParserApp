@@ -92,10 +92,25 @@ public class DatabaseHelperTest {
 	}
 
 	@Test
-	public void testFeatures() {
+	public void testTop10HostsAndRequestsNumber() throws SQLException, ClassNotFoundException {
+		ApacheLogParser apacheLogParser = new ApacheLogParser();
+		DatabaseHelper databaseHelper = new DatabaseHelper();
+		String results = "";
 		List<String> log = generateLog();
 		for (String logLine : log) {
-			System.out.println(logLine + "\n");
+			Matcher matcher = apacheLogParser.parseLine(0, logLine);
+			databaseHelper.insertLine(matcher);
+			databaseHelper.commitLines();
+		}
+		results = databaseHelper.getTop10HostsAndRequestsNumber();
+		databaseHelper.close();
+		// The lines should be 10 for the top 10 and two for the title and an empty
+		// newline:
+		assertTrue(results.lines().count() == 10 + 3);
+		System.out.println(results);
+		// The correct hosts should be contained 0-9:
+		for (int page = 0; page < 9; page++) {
+			assertTrue(results.contains(page + ".host.com " + (40 - 2 * page)));
 		}
 	}
 
