@@ -27,31 +27,53 @@ public class DatabaseHelperTest {
 		databaseHelper.close();
 		assertEquals(result, expectedResult);
 	}
-	
+
 	@Test
 	public void testPercentages() throws SQLException, ClassNotFoundException {
-		ApacheLogParser apacheLogParser = new ApacheLogParser();		
+		ApacheLogParser apacheLogParser = new ApacheLogParser();
 		DatabaseHelper databaseHelper = new DatabaseHelper();
 		String successfulResult = "";
 		String unsuccessfulResult = "";
 		List<String> log = generateLog();
-		for(String logLine : log) {
+		for (String logLine : log) {
 			Matcher matcher = apacheLogParser.parseLine(0, logLine);
 			databaseHelper.insertLine(matcher);
 			databaseHelper.commitLines();
 			successfulResult = databaseHelper.getSuccessfulRequestsPercentage();
-			unsuccessfulResult = databaseHelper.getUnsuccessfulRequestsPercentage();			
+			unsuccessfulResult = databaseHelper.getUnsuccessfulRequestsPercentage();
 		}
 		databaseHelper.close();
 		assertTrue(successfulResult.contains("66.6666"));
 		assertTrue(unsuccessfulResult.contains("33.3333"));
 	}
-	
+
+	@Test
+	public void testTop10RequestedPagesAndRequestNumber() throws SQLException, ClassNotFoundException {
+		ApacheLogParser apacheLogParser = new ApacheLogParser();
+		DatabaseHelper databaseHelper = new DatabaseHelper();
+		String results = "";
+		List<String> log = generateLog();
+		for (String logLine : log) {
+			Matcher matcher = apacheLogParser.parseLine(0, logLine);
+			databaseHelper.insertLine(matcher);
+			databaseHelper.commitLines();
+			results = databaseHelper.getTop10RequestedPagesAndRequestNumber();
+		}
+		databaseHelper.close();
+		// The lines should be 10 for the top 10 and two for the title and an empty
+		// newline:
+		assertTrue(results.lines().count() == 10 + 3);
+		// The correct pages should be contained 0-9:
+		for(int page = 0; page < 9; page++) {
+			assertTrue(results.contains(page+".html "+(60-(3*page))));
+		}
+	}
+
 	@Test
 	public void testFeatures() {
 		List<String> log = generateLog();
-		for(String logLine : log) {
-			System.out.println(logLine+"\n");
+		for (String logLine : log) {
+			System.out.println(logLine + "\n");
 		}
 	}
 
@@ -76,9 +98,9 @@ public class DatabaseHelperTest {
 				totalRequests += 3;
 			}
 		}
-		System.out.println("Total requests: "+totalRequests);
-		System.out.println("Total successful requests: "+2*totalRequests/3+", "+2.0/3*100+"%" );
-		System.out.println("Total unsuccessful requests: "+totalRequests/3+", "+1.0/3*100+"%" );
+		System.out.println("Total requests: " + totalRequests);
+		System.out.println("Total successful requests: " + 2 * totalRequests / 3 + ", " + 2.0 / 3 * 100 + "%");
+		System.out.println("Total unsuccessful requests: " + totalRequests / 3 + ", " + 1.0 / 3 * 100 + "%");
 		return logLines;
 	}
 
