@@ -57,15 +57,37 @@ public class DatabaseHelperTest {
 			Matcher matcher = apacheLogParser.parseLine(0, logLine);
 			databaseHelper.insertLine(matcher);
 			databaseHelper.commitLines();
-			results = databaseHelper.getTop10RequestedPagesAndRequestNumber();
 		}
+		results = databaseHelper.getTop10RequestedPagesAndRequestNumber();
 		databaseHelper.close();
 		// The lines should be 10 for the top 10 and two for the title and an empty
 		// newline:
 		assertTrue(results.lines().count() == 10 + 3);
 		// The correct pages should be contained 0-9:
-		for(int page = 0; page < 9; page++) {
-			assertTrue(results.contains(page+".html "+(60-(3*page))));
+		for (int page = 0; page < 9; page++) {
+			assertTrue(results.contains(page + ".html " + (60 - (3 * page))));
+		}
+	}
+
+	@Test
+	public void testTop10UnsuccessfulRequests() throws SQLException, ClassNotFoundException {
+		ApacheLogParser apacheLogParser = new ApacheLogParser();
+		DatabaseHelper databaseHelper = new DatabaseHelper();
+		String results = "";
+		List<String> log = generateLog();
+		for (String logLine : log) {
+			Matcher matcher = apacheLogParser.parseLine(0, logLine);
+			databaseHelper.insertLine(matcher);
+			databaseHelper.commitLines();
+		}
+		results = databaseHelper.getTop10UnsuccessfulPageRequests();
+		databaseHelper.close();
+		// The lines should be 10 for the top 10 and two for the title and an empty
+		// newline:
+		assertTrue(results.lines().count() == 10 + 3);
+		// The correct pages should be contained 0-9:
+		for (int page = 0; page < 9; page++) {
+			assertTrue(results.contains(page + ".html"));
 		}
 	}
 
