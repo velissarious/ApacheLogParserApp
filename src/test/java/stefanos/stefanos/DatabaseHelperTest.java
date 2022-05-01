@@ -64,8 +64,9 @@ public class DatabaseHelperTest {
 		// newline:
 		assertEquals(10 + 3, results.lines().count());
 		// The correct pages should be contained 0-9:
+		String[] resultLines = results.split("\n");
 		for (int page = 0; page < 9; page++) {
-			assertTrue(results.contains(page + ".html " + (60 - (3 * page))));
+			assertTrue(resultLines[page+2].contains(page + ".html " + (60 - (3 * page))));
 		}
 	}
 
@@ -77,17 +78,18 @@ public class DatabaseHelperTest {
 		List<String> log = generateLog();
 		for (String logLine : log) {
 			Matcher matcher = apacheLogParser.parseLine(0, logLine);
-			databaseHelper.insertLine(matcher);
-			databaseHelper.commitLines();
+			databaseHelper.insertLine(matcher);			
 		}
+		databaseHelper.commitLines();
 		results = databaseHelper.getTop10UnsuccessfulPageRequests();
 		databaseHelper.close();
 		// The lines should be 10 for the top 10 and two for the title and an empty
 		// newline:
-		assertEquals(10 + 3, results.lines().count());
+		assertEquals(10 + 3, results.lines().count());		
 		// The correct pages should be contained 0-9:
+		String[] resultLines = results.split("\n");
 		for (int page = 0; page < 9; page++) {
-			assertTrue(results.contains(page + ".html"));
+			assertTrue(resultLines[page+2].contains(page + ".html"));
 		}
 	}
 
@@ -99,17 +101,18 @@ public class DatabaseHelperTest {
 		List<String> log = generateLog();
 		for (String logLine : log) {
 			Matcher matcher = apacheLogParser.parseLine(0, logLine);
-			databaseHelper.insertLine(matcher);
-			databaseHelper.commitLines();
+			databaseHelper.insertLine(matcher);			
 		}
+		databaseHelper.commitLines();
 		results = databaseHelper.getTop10HostsAndRequestsNumber();
 		databaseHelper.close();
 		// The lines should be 10 for the top 10 and two for the title and an empty
 		// newline:
-		assertEquals(10 + 3, results.lines().count());
+		assertEquals(10 + 3, results.lines().count());		
 		// The correct hosts should be contained 0-9:
+		String[] resultLines = results.split("\n");
 		for (int page = 0; page < 9; page++) {
-			assertTrue(results.contains(page + ".host.com " + (40 - 2 * page)));
+			assertTrue(resultLines[page+2].contains(page + ".host.com " + (40 - 2 * page)));
 		}
 	}
 

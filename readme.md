@@ -109,9 +109,138 @@ Portions of the program are written as SQL queries.
 
 ### Assumptions
 
-All possible input are log files are Apache HTTP Server log file from 1995.
+* All possible input are log files are Apache HTTP Server log file from 1995.
 
-The input log will always fit in memory. 
+* The input log will always fit in memory. 
 
-Pages are only html pages.
+* Pages are only `html` pages.
+
+
+
+## Sample Output
+
+This is `report.txt` contents for the `access_log_Aug95` file.
+
+```text
+1. Top 10 requested pages and the number of requests made for each
+-------------------------------------------------------------------
+/ksc.html 43379
+/shuttle/missions/sts-69/mission-sts-69.html 24544
+/shuttle/missions/missions.html 22339
+/software/winvn/winvn.html 10059
+/history/history.html 10039
+/history/apollo/apollo.html 8957
+/shuttle/countdown/liftoff.html 7836
+/history/apollo/apollo-13/apollo-13.html 7157
+/shuttle/technology/sts-newsref/stsref-toc.html 6451
+/shuttle/missions/sts-69/images/images.html 5258
+
+2. Percentage of successful requests (anything in the 200s and 300s range)
+--------------------------------------------------------------------------
+99.9998071632427
+
+3. Percentage of unsuccessful requests (anything that is not in the 200s or 300s range)
+---------------------------------------------------------------------------------------
+0.00019283675725709
+
+4. Top 10 unsuccessful page requests
+------------------------------------
+
+5. The top 10 hosts making the most requests, displaying the IP address and number of requests made.
+----------------------------------------------------------------------------------------------------
+edams.ksc.nasa.gov 6515
+piweba4y.prodigy.com 4797
+163.206.89.4 4769
+piweba5y.prodigy.com 4564
+piweba3y.prodigy.com 4354
+www-d1.proxy.aol.com 3862
+www-b2.proxy.aol.com 3516
+www-b3.proxy.aol.com 3431
+www-c5.proxy.aol.com 3403
+www-b5.proxy.aol.com 3381
+
+7. For each of the top 10 hosts, show the top 5 pages requested and the number of requests for each page requests made.
+-----------------------------------------------------------------------------------------------------------------------
+Host: edams.ksc.nasa.gov
+/ksc.html 1020
+/shuttle/missions/sts-69/mission-sts-69.html 28
+/shuttle/missions/sts-69/liftoff.html 17
+/shuttle/missions/missions.html 16
+/whats-new.html 15
+
+Host: piweba4y.prodigy.com
+/shuttle/missions/sts-69/mission-sts-69.html 111
+/shuttle/missions/missions.html 96
+/ksc.html 70
+/shuttle/countdown/liftoff.html 42
+/history/apollo/apollo.html 34
+
+Host: 163.206.89.4
+/ksc.html 251
+/shuttle/missions/sts-69/mission-sts-69.html 54
+/shuttle/countdown/liftoff.html 44
+/shuttle/missions/missions.html 40
+/shuttle/countdown/countdown.html 26
+
+Host: piweba5y.prodigy.com
+/shuttle/missions/sts-69/mission-sts-69.html 115
+/shuttle/missions/missions.html 88
+/ksc.html 71
+/history/history.html 38
+/shuttle/countdown/liftoff.html 32
+
+Host: piweba3y.prodigy.com
+/shuttle/missions/sts-69/mission-sts-69.html 119
+/shuttle/missions/missions.html 100
+/ksc.html 76
+/shuttle/technology/sts-newsref/stsref-toc.html 31
+/history/apollo/apollo-13/apollo-13.html 31
+
+Host: www-d1.proxy.aol.com
+/ksc.html 72
+/shuttle/missions/sts-69/mission-sts-69.html 71
+/shuttle/missions/missions.html 57
+/history/history.html 39
+/history/apollo/apollo.html 29
+
+Host: www-b2.proxy.aol.com
+/ksc.html 69
+/shuttle/missions/sts-69/mission-sts-69.html 66
+/shuttle/missions/missions.html 50
+/history/history.html 33
+/history/apollo/apollo.html 24
+
+Host: www-b3.proxy.aol.com
+/ksc.html 77
+/shuttle/missions/missions.html 73
+/shuttle/missions/sts-69/mission-sts-69.html 51
+/history/history.html 39
+/history/apollo/apollo.html 29
+
+Host: www-c5.proxy.aol.com
+/ksc.html 79
+/shuttle/missions/sts-69/mission-sts-69.html 61
+/shuttle/missions/missions.html 51
+/history/apollo/apollo.html 38
+/history/history.html 33
+
+Host: www-b5.proxy.aol.com
+/shuttle/missions/sts-69/mission-sts-69.html 59
+/shuttle/missions/missions.html 51
+/ksc.html 51
+/history/history.html 25
+/shuttle/countdown/liftoff.html 24
+
+
+```
+
+The display output contains the warnings for malformed output. Snippet bellow:
+
+```
+...
+Malformed log entry in line 1333474 !
+Malformed log entry in line 1333505 !
+Malformed log entry in line 1333551 !
+...
+```
 

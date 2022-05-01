@@ -17,6 +17,39 @@ public class ApacheLogParserTest {
 
 		assertEquals(true, found);
 	}
+	
+	@Test
+	public void missingRightBraket() {
+		String logLine = "uplherc.upl.com - - [01/Aug/1995:00:00:08 -0400 \"GET /images/MOSAIC-logosmall.gif HTTP/1.0\" 304 0";
+
+		ApacheLogParser apacheLogParser = new ApacheLogParser();
+		apacheLogParser.parseLine(0, logLine);
+		boolean found = apacheLogParser.found();
+
+		assertEquals(false, found);
+	}
+	
+	@Test
+	public void missingLeftQuote() {
+		String logLine = "uplherc.upl.com - - [01/Aug/1995:00:00:08 -0400] GET /images/MOSAIC-logosmall.gif HTTP/1.0\" 304 0";
+
+		ApacheLogParser apacheLogParser = new ApacheLogParser();
+		apacheLogParser.parseLine(0, logLine);
+		boolean found = apacheLogParser.found();
+
+		assertEquals(false, found);
+	}
+	
+	@Test
+	public void missingStatus() {
+		String logLine = "uplherc.upl.com - - [01/Aug/1995:00:00:08 -0400] \"GET /images/MOSAIC-logosmall.gif HTTP/1.0\" 0";
+
+		ApacheLogParser apacheLogParser = new ApacheLogParser();
+		apacheLogParser.parseLine(0, logLine);
+		boolean found = apacheLogParser.found();
+
+		assertEquals(false, found);
+	}
 
 	@Test
 	public void incorrectMatchShouldNotBeFound() {
