@@ -75,7 +75,6 @@ public class ApacheLogParserTest {
 		assertEquals(matcher.group(4), "01/Aug/1995:00:00:08 -0400");
 		assertEquals(matcher.group(5), "GET /images/MOSAIC-logosmall.gif HTTP/1.0");
 		assertEquals(matcher.group(6), "304");
-		assertEquals(matcher.group(7), "0");
 	}
 
 }

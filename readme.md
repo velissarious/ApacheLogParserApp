@@ -137,27 +137,37 @@ This is `report.txt` contents for the `access_log_Aug95` file.
 
 2. Percentage of successful requests (anything in the 200s and 300s range)
 --------------------------------------------------------------------------
-99.9998071632427
+99.3460084667921 % 
 
 3. Percentage of unsuccessful requests (anything that is not in the 200s or 300s range)
 ---------------------------------------------------------------------------------------
-0.00019283675725709
+0.65399153320789 % 
 
 4. Top 10 unsuccessful page requests
 ------------------------------------
+/shuttle/missions/STS-69/mission-STS-69.html
+/elv/DELTA/uncons.htm
+/software/winvn/winvn.html.
+/shuttle/missions/technology/sts-newsref/stsref-toc.html
+/shuttle/missions/sts-79/mission-sts-79.html
+/shuttle/missions/sts-69-mission-sts-69.html
+/shuttle/technology/sts-newsref/stsref-to.html
+/software/winvn/winvn.html/wvsmall.gif
+/software/winvn/winvn.html/winvn.gif
+/software/winvn/winvn.html/bluemarb.gif
 
 5. The top 10 hosts making the most requests, displaying the IP address and number of requests made.
 ----------------------------------------------------------------------------------------------------
-edams.ksc.nasa.gov 6515
-piweba4y.prodigy.com 4797
-163.206.89.4 4769
-piweba5y.prodigy.com 4564
-piweba3y.prodigy.com 4354
-www-d1.proxy.aol.com 3862
-www-b2.proxy.aol.com 3516
-www-b3.proxy.aol.com 3431
-www-c5.proxy.aol.com 3403
-www-b5.proxy.aol.com 3381
+edams.ksc.nasa.gov 6530
+piweba4y.prodigy.com 4846
+163.206.89.4 4791
+piweba5y.prodigy.com 4607
+piweba3y.prodigy.com 4416
+www-d1.proxy.aol.com 3889
+www-b2.proxy.aol.com 3534
+www-b3.proxy.aol.com 3463
+www-c5.proxy.aol.com 3423
+www-b5.proxy.aol.com 3411
 
 7. For each of the top 10 hosts, show the top 5 pages requested and the number of requests for each page requests made.
 -----------------------------------------------------------------------------------------------------------------------
@@ -234,7 +244,7 @@ Host: www-b5.proxy.aol.com
 
 ```
 
-The display output contains the warnings for malformed output. Snippet bellow:
+The display output would contains the warnings for malformed output. There are no malformed logs in this example. If there were it would look like the snippet bellow:
 
 ```
 ...

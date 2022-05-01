@@ -108,7 +108,7 @@ public class DatabaseHelper {
 			// @formatter:off
 			reportPart += 
 					resultSet.getString("Success Percentage") 
-					+ "\n";
+					+ " % \n";
 			// @formatter:on
 		}
 		statement.close();
@@ -141,7 +141,7 @@ public class DatabaseHelper {
 			// @formatter:off
 			reportPart += 
 					resultSet.getString("Failure Percentage") 
-					+ "\n";
+					+ " % \n";
 			// @formatter:on
 		}
 		statement.close();
