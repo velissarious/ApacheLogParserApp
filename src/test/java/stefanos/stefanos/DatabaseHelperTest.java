@@ -25,7 +25,7 @@ public class DatabaseHelperTest {
 				+ "----------------------------------------------------------------------------------------------------\n"
 				+ "uplherc.upl.com 1\n\n";
 		databaseHelper.close();
-		assertEquals(result, expectedResult);
+		assertEquals(expectedResult, result);
 	}
 
 	@Test
@@ -37,9 +37,9 @@ public class DatabaseHelperTest {
 		List<String> log = generateLog();
 		for (String logLine : log) {
 			Matcher matcher = apacheLogParser.parseLine(0, logLine);
-			databaseHelper.insertLine(matcher);
-			databaseHelper.commitLines();
+			databaseHelper.insertLine(matcher);			
 		}
+		databaseHelper.commitLines();
 		successfulResult = databaseHelper.getSuccessfulRequestsPercentage();
 		unsuccessfulResult = databaseHelper.getUnsuccessfulRequestsPercentage();
 		databaseHelper.close();
@@ -55,12 +55,12 @@ public class DatabaseHelperTest {
 		List<String> log = generateLog();
 		for (String logLine : log) {
 			Matcher matcher = apacheLogParser.parseLine(0, logLine);
-			databaseHelper.insertLine(matcher);
-			databaseHelper.commitLines();
+			databaseHelper.insertLine(matcher);			
 		}
+		databaseHelper.commitLines();
 		results = databaseHelper.getTop10RequestedPagesAndRequestNumber();
 		databaseHelper.close();
-		// The lines should be 10 for the top 10 and two for the title and an empty
+		// The lines should be 10 for the top 10 and 2 for the title and an empty
 		// newline:
 		assertEquals(10 + 3, results.lines().count());
 		// The correct pages should be contained 0-9:
@@ -120,8 +120,8 @@ public class DatabaseHelperTest {
 		String results = "";
 		List<String> log = generateLog();
 		// Modify example to make pages 0-4 most visited for each host:
-		List<String> additinalLog = generateLog(20, 5, false);
-		log.addAll(additinalLog);
+		List<String> additionalLog = generateLog(20, 5, false);
+		log.addAll(additionalLog);
 		for (String logLine : log) {
 			Matcher matcher = apacheLogParser.parseLine(0, logLine);
 			databaseHelper.insertLine(matcher);
@@ -129,9 +129,6 @@ public class DatabaseHelperTest {
 		}
 		results = databaseHelper.getTop5PagesOfTop10Hosts();
 		databaseHelper.close();
-		// The lines should be 5 for the top 5 and two for the title and an empty
-		// newline:
-		System.out.println(results);
 		// Lines should be 5 for pages the 1 for host
 		// There 10 hosts
 		// and two lines for the title:

@@ -51,7 +51,7 @@ public class App {
 	}
 
 	public static void run() {
-		if (verbose)
+		if (Boolean.TRUE.equals(verbose))
 			System.out.println("Apache log parser!");
 
 		if (option == 6 || option > 7 || option < 0) {
@@ -106,7 +106,7 @@ public class App {
 				bufferedReader.close();
 
 				long endTime = System.currentTimeMillis(); // Timing code.
-				if (verbose)
+				if (Boolean.TRUE.equals(verbose))
 					System.out.println("Insert to database duration: " + (endTime - startTime) + " ms");
 
 				// Generate the report:
@@ -123,7 +123,7 @@ public class App {
 					report += databaseHelper.getTop10HostsAndRequestsNumber();
 				if (option == 0 || option == 7)
 					report += databaseHelper.getTop5PagesOfTop10Hosts();
-				if (verbose)
+				if (Boolean.TRUE.equals(verbose))
 					System.out.println(report);
 
 				// Write the report:
