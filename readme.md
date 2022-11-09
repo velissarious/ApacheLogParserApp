@@ -1,6 +1,6 @@
 # Apache Log Parser App
 
-The `Apache Log Parser App` or `ALPA` for short is a command line application that can be used to parse old [Apache HTTP Server](https://httpd.apache.org/) logs form 1995 to generate a report with a number of statistics.
+The `Apache Log Parser App` or `ALPA` for short is a command line application that can be used to parse old [Apache HTTP Server](https://httpd.apache.org/) logs form 1995 to generate a report with a number of statistics. You may use this old archived [log file by NASA](https://web.archive.org/web/20220425204229/ftp://ita.ee.lbl.gov/traces/NASA_access_log_Aug95.gz) as an example input.
 
 ## How to build the app
 
